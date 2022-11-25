@@ -1,0 +1,72 @@
+﻿@model VendorViewModel
+
+@{
+    ViewData["Title"] = "List of Vendors";
+    string baseCssClass = "page-item";
+    string cssClass = "";
+}
+
+<div>
+    <a asp-controller="Vendors" asp-action="GetAddVendorRequest">Add new vendor</a>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            if(@Model.SelectedAlphabeticalGroupLink == 1)
+            {
+            @foreach (Vendor vendor in Model.Vendors)
+            {
+                <tr>
+                    <td>@vendor.Name</td>
+                    <td>@vendor.Address1, + @vendor.Address2, + @vendor.City, + @vendor.ProvinceOrState, + @vendor.ZipOrPostalCode</td>
+                    <td>
+                        <a href="#">Invoices</a>
+                        <span class="mx-1">|</span>
+                        <a href="#">Edit</a>
+                        <a href="#">Delete</a>
+                    </td>
+                </tr>
+            }
+            }
+
+
+        </tbody>
+    </table>
+
+    <nav aria-label="...">
+        <ul class="pagination pagination-lg">
+            @if (Model.ActiveVendor == "A-E")
+            {
+                cssClass = baseCssClass + " disabled";
+            }
+            else
+            {
+                cssClass = baseCssClass;
+
+            }
+            <li class="page-item disabled">
+                <a class="@cssClass" asp-controller="Vendors" asp-action="GetAllVendors" asp-route-id="@Model.SelectedAlphabeticalGroupLink" tabindex="-1">@Model.ActiveVendor</a>
+            </li>
+
+            @foreach (string group in Model.ListOfVendorGroupsFilters)
+            {
+                if (@Model.ActiveVendor == group)
+                {
+                    cssClass = baseCssClass + " disabled";
+                }
+                else
+                {
+                    <li class="page-item"><a class="page-link" asp-controller="Vendors" asp-action="GetAllVendors" asp-route-id="@Model.SelectedAlphabeticalGroupLink">@group</a></li>
+                }
+            }
+            </ul>
+        </nav>
+
+
+    </div>
