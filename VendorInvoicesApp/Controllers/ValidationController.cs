@@ -40,9 +40,9 @@ namespace VendorInvoicesApp.Controllers
             return msg;
         }
 
-        public IActionResult CheckZipOrPostalCode(string zipCode)
+        public IActionResult CheckPostalcode(string zipOrPostalCode)
         {
-            string msgResult = ValidateZipPostalCode(zipCode);
+            string msgResult = ValidateZipPostalCode(zipOrPostalCode);
 
             if (string.IsNullOrEmpty(msgResult))
             {
@@ -61,7 +61,7 @@ namespace VendorInvoicesApp.Controllers
         private string ValidateZipPostalCode(string zipCode)
         {
             string msg = "";
-            var usRegexZip = @"\""^\\d{5}(?:[-\\s]\\d{4})?$\";
+            var usRegexZip = @"^\d{5}(?:[-\s]\d{4})?$";
             var canadaRegexZip = @"^([ABCEGHJKLMNPRSTVXY]\d[ABCEGHJKLMNPRSTVWXYZ])\ {0,1}(\d[ABCEGHJKLMNPRSTVWXYZ]\d)$";
 
             if ((!Regex.Match(zipCode, usRegexZip).Success &&
@@ -73,9 +73,9 @@ namespace VendorInvoicesApp.Controllers
             return msg;
         }
 
-        public IActionResult CheckPhoneNum(string phoneNumber)
+        public IActionResult CheckPhoneNum(string vendorPhone)
         {
-            string msgResult = ValidatePhoneNum(phoneNumber);
+            string msgResult = ValidatePhoneNum(vendorPhone);
 
             if (string.IsNullOrEmpty(msgResult))
             {

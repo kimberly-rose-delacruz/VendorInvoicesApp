@@ -2,3 +2,11 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+$(document).ready(function () {
+    //select all datetime input fields & call the datepicker method on them.
+    $('input[type=datetime]').datepicker({
+        changeMonth: true,
+        changeYear: true,
+        yearRange: '-100:+100'
+    });
+});

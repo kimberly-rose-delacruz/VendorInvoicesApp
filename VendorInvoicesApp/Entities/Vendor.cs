@@ -16,15 +16,15 @@ namespace VendorInvoicesApp.Entities
         public string? Address2 { get; set; }
 
         [Required(ErrorMessage = "Please enter a city.")]
-        public string? City { get; set; } = null!;
+        public string? City { get; set; }
 
         [Required(ErrorMessage = "Please enter a valid province or state.")]
         [Remote("CheckProvinceLength", "Validation")]
-        public string? ProvinceOrState { get; set; } = null!;
+        public string? ProvinceOrState { get; set; }
 
         [Required(ErrorMessage = "Please enter a valid zip or postal code.")]
-        [Remote("CheckZipOrPostalCode", "Validation")]
-        public string? ZipOrPostalCode { get; set; } = null!;
+        [Remote("CheckPostalcode", "Validation")]
+        public string? ZipOrPostalCode { get; set; }
 
         [Required(ErrorMessage = "Please enter a phone number.")]
         [Remote("CheckPhoneNum", "Validation")]

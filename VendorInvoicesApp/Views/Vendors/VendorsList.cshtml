@@ -1,0 +1,55 @@
+﻿@model VendorViewModel
+
+@{
+    ViewData["Title"] = "List of Vendors";
+    string baseCssClass = "page-item";
+    string cssClass = "";
+}
+
+<div>
+    <a asp-controller="Vendors" asp-action="GetAddVendorRequest">Add new vendor</a>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+                @foreach (Vendor vendor in Model.Vendors) 
+                {
+                    <tr>            
+                    <td>@vendor.Name</td>
+                    <td>@vendor.Address1 @vendor.Address2 @vendor.City @vendor.ProvinceOrState @vendor.ZipOrPostalCode</td>
+                    <td>
+                        <a href="#">Invoices</a>
+                        <span class="mx-1">|</span>
+                        <a href="#">Edit</a
+                        <span class="mx-1">|</span>
+                        <a href="#">Delete</a>
+                    </td>
+                    </tr>
+
+                }            
+        </tbody>
+    </table>
+</div>
+
+    <nav aria-label="...">
+        <ul class="pagination pagination-lg">
+            <li class="page-item">
+                <a class="page-link" asp-controller="Vendors" asp-action="GetAllVendors" asp-route-filterIndex="1">A-E</a>
+            </li
+            <li class="page-item">
+                <a class="page-link" asp-controller="Vendors" asp-action="GetAllVendors" asp-route-filterIndex="2">F-K</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" asp-controller="Vendors" asp-action="GetAllVendors" asp-route-filterIndex="3">L-R</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" asp-controller="Vendors" asp-action="GetAllVendors" asp-route-filterIndex="4">S-Z</a>
+            </li>
+        </ul>
+    </nav>

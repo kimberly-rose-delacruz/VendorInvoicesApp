@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using VendorInvoicesApp.Entities;
 using VendorInvoicesApp.Models;
 using VendorInvoicesApp.Services;
@@ -15,33 +16,85 @@ namespace VendorInvoicesApp.Controllers
             _vendorService = vendorService;
         }
 
-        [HttpGet("/vendors/{id}")]
-        public IActionResult GetAllVendors(int id)
+        [HttpGet("/vendors")]
+        public IActionResult GetAllVendors(int filterIndex = 1)
         {
-            ICollection<Vendor> vendors = _vendorService.GetAllVendorsByGroupLink(id);
-            string activeVendorGroup = _vendorService.GetActiveVendorByGroup(id);
+            ICollection<Vendor> vendors = _vendorService.GetAllVendorsByGroupLink(filterIndex);
+            VendorViewModel vendorViewModel = new VendorViewModel()
+            {
+                Vendors = vendors,
+            };
 
-            if (id == 1 || id == 0)
-             {
-                VendorViewModel vendorViewModel = new VendorViewModel()
-                {
-                    Vendors = vendors,
-                    SelectedAlphabeticalGroupLink = id,
-                    ActiveVendor = activeVendorGroup,
-                };
-                return RedirectToAction("Items", vendorViewModel);
+            return View("VendorsList",vendorViewModel);
+        }
+
+        [HttpGet("/vendors/add-new-vendor")]
+        public IActionResult GetAddVendorRequest()
+        {
+            ViewBag.ActionTitle = "Add";
+            return View("Add", new Vendor());
+        }
+
+        [HttpPost("/vendors")]
+        public IActionResult AddVendor(Vendor newVendor)
+        {
+            int filterIndex = _vendorService.GetFilterIndexBasedOnName(newVendor.Name);
+            ICollection<Vendor> vendors = _vendorService.GetAllVendorsByGroupLink(filterIndex);
+
+            VendorViewModel vendorViewModel = new VendorViewModel()
+            {
+                Vendors = vendors,
+                ActiveVendor = newVendor
+            };
+
+            if (ModelState.IsValid)
+            {
+                _vendorService.AddVendor(vendorViewModel.ActiveVendor);
+
+                return RedirectToAction("GetAllVendors", "Vendors");
             }
             else
             {
-                VendorViewModel vendorViewModel = new VendorViewModel()
-                {
-                    Vendors = vendors,
-                    SelectedAlphabeticalGroupLink = id,
-                    ActiveVendor = activeVendorGroup,
-                };
-                return RedirectToAction("Items", vendorViewModel);
-            }
+                return View("Add", vendorViewModel.ActiveVendor);
 
+            }
         }
+
+        [HttpGet("/vendors/{id}/edit-vendor")]
+        public IActionResult GetEditVendorById(int id)
+        {
+            Vendor vendor = _vendorService.GetVendorById(id);
+
+            return View("Edit", vendor);
+        }
+
+        [HttpPost("/vendors/{id}")]
+
+        public IActionResult ProcessEditVendorRequest(Vendor editVendor)
+        {
+
+            int filterIndex = _vendorService.GetFilterIndexBasedOnName(editVendor.Name);
+            ICollection<Vendor> vendors = _vendorService.GetAllVendorsByGroupLink(filterIndex);
+
+            VendorViewModel vendorViewModel = new VendorViewModel()
+            {
+                Vendors = vendors,
+                ActiveVendor = editVendor
+            };
+
+            if (ModelState.IsValid)
+            {
+                _vendorService.UpdateVendor(vendorViewModel.ActiveVendor);
+
+                return RedirectToAction("GetAllVendors", "Vendors");
+            }
+            else
+            {
+                return View("Edit", vendorViewModel.ActiveVendor);
+            }
+        }
+
+
     }
+
 }

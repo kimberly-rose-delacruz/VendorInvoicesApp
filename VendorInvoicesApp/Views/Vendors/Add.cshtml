@@ -1,0 +1,22 @@
+﻿@model Vendor
+
+@{
+    ViewData["Title"] = "Add a vendor";
+}
+
+<!--Enabling pulling in extra javascript within an cshtml file to use in the validation scripts-->
+@section scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+
+<form asp-controller="Vendors" asp-action="AddVendor" method="post" enctype="application/x-www-form-urlencoded">
+    <partial name="_VendorAddEditPage" />
+    <div>
+        <div>
+            <button type="submit" class="btn btn-primary">Add</button>
+            <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Cancel</a>
+        </div>
+    </div>
+
+</form>

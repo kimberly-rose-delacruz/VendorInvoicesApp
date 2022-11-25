@@ -12,7 +12,7 @@ using VendorInvoicesApp.Entities;
 namespace VendorInvoicesApp.Migrations
 {
     [DbContext(typeof(VendorDbContext))]
-    [Migration("20221125072221_initial")]
+    [Migration("20221125123046_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -348,6 +348,111 @@ namespace VendorInvoicesApp.Migrations
                             City = "Marion County",
                             IsDeleted = false,
                             Name = "Carling Publishers Weekly",
+                            ProvinceOrState = "OH",
+                            VendorContactEmail = "bolton.smith@company.com",
+                            VendorContactFirstName = "Bolton",
+                            VendorContactLastName = "Smith",
+                            VendorPhone = "+14844458715",
+                            ZipOrPostalCode = "94101"
+                        },
+                        new
+                        {
+                            VendorId = 4,
+                            Address1 = "Marion",
+                            Address2 = "",
+                            City = "Marion County",
+                            IsDeleted = false,
+                            Name = "Famouse Cookies Inc",
+                            ProvinceOrState = "OH",
+                            VendorContactEmail = "bolton.smith@company.com",
+                            VendorContactFirstName = "Bolton",
+                            VendorContactLastName = "Smith",
+                            VendorPhone = "+14844458715",
+                            ZipOrPostalCode = "94101"
+                        },
+                        new
+                        {
+                            VendorId = 5,
+                            Address1 = "Marion",
+                            Address2 = "",
+                            City = "Marion County",
+                            IsDeleted = false,
+                            Name = "Kimberly Cakes Inc",
+                            ProvinceOrState = "OH",
+                            VendorContactEmail = "bolton.smith@company.com",
+                            VendorContactFirstName = "Bolton",
+                            VendorContactLastName = "Smith",
+                            VendorPhone = "+14844458715",
+                            ZipOrPostalCode = "94101"
+                        },
+                        new
+                        {
+                            VendorId = 6,
+                            Address1 = "Marion",
+                            Address2 = "",
+                            City = "Marion County",
+                            IsDeleted = false,
+                            Name = "Lalamove Company",
+                            ProvinceOrState = "OH",
+                            VendorContactEmail = "bolton.smith@company.com",
+                            VendorContactFirstName = "Bolton",
+                            VendorContactLastName = "Smith",
+                            VendorPhone = "+14844458715",
+                            ZipOrPostalCode = "94101"
+                        },
+                        new
+                        {
+                            VendorId = 7,
+                            Address1 = "Marion",
+                            Address2 = "",
+                            City = "Marion County",
+                            IsDeleted = false,
+                            Name = "Romblon Company",
+                            ProvinceOrState = "OH",
+                            VendorContactEmail = "bolton.smith@company.com",
+                            VendorContactFirstName = "Bolton",
+                            VendorContactLastName = "Smith",
+                            VendorPhone = "+14844458715",
+                            ZipOrPostalCode = "94101"
+                        },
+                        new
+                        {
+                            VendorId = 8,
+                            Address1 = "Marion",
+                            Address2 = "",
+                            City = "Marion County",
+                            IsDeleted = false,
+                            Name = "Southern Importers Company",
+                            ProvinceOrState = "OH",
+                            VendorContactEmail = "bolton.smith@company.com",
+                            VendorContactFirstName = "Bolton",
+                            VendorContactLastName = "Smith",
+                            VendorPhone = "+14844458715",
+                            ZipOrPostalCode = "94101"
+                        },
+                        new
+                        {
+                            VendorId = 9,
+                            Address1 = "Marion",
+                            Address2 = "",
+                            City = "Marion County",
+                            IsDeleted = false,
+                            Name = "XYZ Company",
+                            ProvinceOrState = "OH",
+                            VendorContactEmail = "bolton.smith@company.com",
+                            VendorContactFirstName = "Bolton",
+                            VendorContactLastName = "Smith",
+                            VendorPhone = "+14844458715",
+                            ZipOrPostalCode = "94101"
+                        },
+                        new
+                        {
+                            VendorId = 10,
+                            Address1 = "Marion",
+                            Address2 = "",
+                            City = "Marion County",
+                            IsDeleted = false,
+                            Name = "Zeebra Company",
                             ProvinceOrState = "OH",
                             VendorContactEmail = "bolton.smith@company.com",
                             VendorContactFirstName = "Bolton",

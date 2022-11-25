@@ -1,8 +1,9 @@
-﻿using VendorInvoicesApp.Entities;
+﻿using System.Numerics;
+using VendorInvoicesApp.Entities;
 
 namespace VendorInvoicesApp.Services
 {
-    public class VendorService:IVendorService
+    public class VendorService : IVendorService
     {
         private VendorDbContext _vendorDbContext;
         private ICollection<Vendor> vendors;
@@ -13,33 +14,32 @@ namespace VendorInvoicesApp.Services
 
         public bool IsPhoneNumberUnique(string phoneNumber)
         {
-            var result = false;
-            List<string> phoneNumbers = _vendorDbContext.Vendors.Select(v => v.VendorPhone).ToList();
+            bool result = false;
+            var number = _vendorDbContext.Vendors.Where(v => v.VendorPhone == phoneNumber).FirstOrDefault();
 
-            foreach (var phone in phoneNumbers)
+            if (number == null)
             {
-                if (phoneNumber != phone)
-                {
-                    result = true;
-                }
-                else
-                {
-                    result = false;
-                }
+                result = true;
             }
 
             return result;
         }
 
+        public ICollection<Vendor> GetAllVendors()
+        {
+            var vendors = _vendorDbContext.Vendors.OrderByDescending(v => v.Name).ToList();
+            return vendors;
+        }
+
         public ICollection<Vendor> GetAllVendorsByGroupLink(int selectedGroupLink)
         {
-            if(selectedGroupLink == 1)
+            if (selectedGroupLink == 1)
             {
                 //get list of vendors A-E by default
-                vendors =  _vendorDbContext.Vendors.Where(v => v.Name.StartsWith("A") || v.Name.StartsWith("a") || v.Name.StartsWith("B")
+                vendors = _vendorDbContext.Vendors.Where(v => v.Name.StartsWith("A") || v.Name.StartsWith("a") || v.Name.StartsWith("B")
                 || v.Name.StartsWith("b") || v.Name.StartsWith("C") || v.Name.StartsWith("c") || v.Name.StartsWith("D") || v.Name.StartsWith("d") || v.Name.StartsWith("e") || v.Name.StartsWith("E")).ToList();
             }
-            if(selectedGroupLink == 2)
+            if (selectedGroupLink == 2)
             {
                 //get list of vendors F-K 2nd Group Link
                 vendors = _vendorDbContext.Vendors.Where(v => v.Name.StartsWith("F") || v.Name.StartsWith("f") || v.Name.StartsWith("g")
@@ -60,25 +60,51 @@ namespace VendorInvoicesApp.Services
 
             return vendors;
         }
-
-        public string GetActiveVendorByGroup(int id)
+        public void AddVendor(Vendor vendor)
         {
-            if(id == 1)
+            _vendorDbContext.Vendors.Add(vendor);
+            _vendorDbContext.SaveChanges();
+        }
+
+        public Vendor GetVendorById(int id)
+        {
+            Vendor vendor = _vendorDbContext.Vendors.FirstOrDefault(v => v.VendorId == id);
+
+            return vendor;
+        }
+
+        public void UpdateVendor(Vendor updateVendor)
+        {
+            _vendorDbContext.Update(updateVendor);
+            _vendorDbContext.SaveChanges();
+        }
+
+        public int GetFilterIndexBasedOnName(string vendorName)
+        {
+            int index = 0;
+            if (vendorName.StartsWith("A") || vendorName.StartsWith("a") || vendorName.StartsWith("B")
+                || vendorName.StartsWith("b") || vendorName.StartsWith("C") || vendorName.StartsWith("c") || vendorName.StartsWith("D") || vendorName.StartsWith("d") || vendorName.StartsWith("e") || vendorName.StartsWith("E"))
             {
-                return "A-E";
+                index = 1;
             }
-            else if(id==2)
+            else if (vendorName.StartsWith("F") || vendorName.StartsWith("f") || vendorName.StartsWith("g")
+                || vendorName.StartsWith("G") || vendorName.StartsWith("H") || vendorName.StartsWith("h") || vendorName.StartsWith("i") || vendorName.StartsWith("I") || vendorName.StartsWith("J") || vendorName.StartsWith("j") || vendorName.StartsWith("K") || vendorName.StartsWith("k"))
             {
-                return "F-K";
+                index = 2;
             }
-            else if(id==3)
+            else if (vendorName.StartsWith("L") || vendorName.StartsWith("l") || vendorName.StartsWith("m")
+                || vendorName.StartsWith("M") || vendorName.StartsWith("n") || vendorName.StartsWith("N") || vendorName.StartsWith("O") || vendorName.StartsWith("o") || vendorName.StartsWith("P") || vendorName.StartsWith("p") || vendorName.StartsWith("Q") || vendorName.StartsWith("q") || vendorName.StartsWith("R") || vendorName.StartsWith("r"))
             {
-                return "L-R";
+                index = 3;
             }
             else
             {
-                return "S-Z";
+                index = 4;
             }
+
+            return index;
+
         }
+
     }
 }

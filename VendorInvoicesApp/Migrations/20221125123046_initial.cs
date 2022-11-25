@@ -116,7 +116,14 @@ namespace VendorInvoicesApp.Migrations
                 {
                     { 1, "PO Box 87373", "", "Chicago", false, "Allen Hill Company", "IL", "allen.hill@company.com", "Allen", "Hill", "+14844458615", "60290" },
                     { 2, "Box 52001", "", "San Francisco", false, "Bolton Gas & Electric", "CA", "bolton.smith@company.com", "Bolton", "Smith", "+14844458715", "94101" },
-                    { 3, "Marion", "", "Marion County", false, "Carling Publishers Weekly", "OH", "bolton.smith@company.com", "Bolton", "Smith", "+14844458715", "94101" }
+                    { 3, "Marion", "", "Marion County", false, "Carling Publishers Weekly", "OH", "bolton.smith@company.com", "Bolton", "Smith", "+14844458715", "94101" },
+                    { 4, "Marion", "", "Marion County", false, "Famouse Cookies Inc", "OH", "bolton.smith@company.com", "Bolton", "Smith", "+14844458715", "94101" },
+                    { 5, "Marion", "", "Marion County", false, "Kimberly Cakes Inc", "OH", "bolton.smith@company.com", "Bolton", "Smith", "+14844458715", "94101" },
+                    { 6, "Marion", "", "Marion County", false, "Lalamove Company", "OH", "bolton.smith@company.com", "Bolton", "Smith", "+14844458715", "94101" },
+                    { 7, "Marion", "", "Marion County", false, "Romblon Company", "OH", "bolton.smith@company.com", "Bolton", "Smith", "+14844458715", "94101" },
+                    { 8, "Marion", "", "Marion County", false, "Southern Importers Company", "OH", "bolton.smith@company.com", "Bolton", "Smith", "+14844458715", "94101" },
+                    { 9, "Marion", "", "Marion County", false, "XYZ Company", "OH", "bolton.smith@company.com", "Bolton", "Smith", "+14844458715", "94101" },
+                    { 10, "Marion", "", "Marion County", false, "Zeebra Company", "OH", "bolton.smith@company.com", "Bolton", "Smith", "+14844458715", "94101" }
                 });
 
             migrationBuilder.InsertData(
