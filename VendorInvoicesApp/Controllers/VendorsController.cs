@@ -17,8 +17,9 @@ namespace VendorInvoicesApp.Controllers
         }
 
         [HttpGet("/vendors")]
-        public IActionResult GetAllVendors(int filterIndex = 1)
+        public IActionResult GetAllVendors(int filterIndex=1)
         {
+            ViewBag.FilterIndex = filterIndex;
             ICollection<Vendor> vendors = _vendorService.GetAllVendorsByGroupLink(filterIndex);
             VendorViewModel vendorViewModel = new VendorViewModel()
             {
@@ -51,7 +52,7 @@ namespace VendorInvoicesApp.Controllers
             {
                 _vendorService.AddVendor(vendorViewModel.ActiveVendor);
 
-                return RedirectToAction("GetAllVendors", "Vendors");
+                return RedirectToAction("GetAllVendors", "Vendors", new { filterIndex });
             }
             else
             {
@@ -68,29 +69,23 @@ namespace VendorInvoicesApp.Controllers
             return View("Edit", vendor);
         }
 
-        [HttpPost("/vendors/{id}")]
+        [HttpPost("/vendors/{id}/edit-requests")]
 
         public IActionResult ProcessEditVendorRequest(Vendor editVendor)
         {
 
             int filterIndex = _vendorService.GetFilterIndexBasedOnName(editVendor.Name);
-            ICollection<Vendor> vendors = _vendorService.GetAllVendorsByGroupLink(filterIndex);
-
-            VendorViewModel vendorViewModel = new VendorViewModel()
-            {
-                Vendors = vendors,
-                ActiveVendor = editVendor
-            };
 
             if (ModelState.IsValid)
             {
-                _vendorService.UpdateVendor(vendorViewModel.ActiveVendor);
 
-                return RedirectToAction("GetAllVendors", "Vendors");
+                _vendorService.UpdateVendor(editVendor);
+
+                return RedirectToAction("GetAllVendors", "Vendors", new { filterIndex });
             }
             else
-            {
-                return View("Edit", vendorViewModel.ActiveVendor);
+            { 
+                return View("Edit", editVendor);
             }
         }
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.Text.RegularExpressions;
+using VendorInvoicesApp.Entities;
 using VendorInvoicesApp.Services;
 
 namespace VendorInvoicesApp.Controllers
@@ -75,18 +76,18 @@ namespace VendorInvoicesApp.Controllers
 
         public IActionResult CheckPhoneNum(string vendorPhone)
         {
-            string msgResult = ValidatePhoneNum(vendorPhone);
+           var msgResult = ValidatePhoneNum(vendorPhone);
 
             if (string.IsNullOrEmpty(msgResult))
             {
                 //this next line allows the client-side data validation libraries to see this field as valid.
-                TempData["okEmail"] = true;
                 return Json(true);
             }
             else
             {
                 return Json(msgResult);
             }
+
 
             return View();
         }

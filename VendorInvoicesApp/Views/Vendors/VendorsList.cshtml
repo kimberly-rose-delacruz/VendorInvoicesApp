@@ -26,9 +26,9 @@
                     <td>
                         <a href="#">Invoices</a>
                         <span class="mx-1">|</span>
-                        <a href="#">Edit</a
+                        <a asp-controller="Vendors" asp-action="GetEditVendorById" asp-route-id="@vendor.VendorId">Edit</a>
                         <span class="mx-1">|</span>
-                        <a href="#">Delete</a>
+                        <a>Delete</a>
                     </td>
                     </tr>
 
@@ -39,16 +39,16 @@
 
     <nav aria-label="...">
         <ul class="pagination pagination-lg">
-            <li class="page-item">
+            <li class="page-item @(ViewBag.FilterIndex == 1 ? "disabled": string.Empty)">
                 <a class="page-link" asp-controller="Vendors" asp-action="GetAllVendors" asp-route-filterIndex="1">A-E</a>
-            </li
-            <li class="page-item">
+            </li>
+            <li class="page-item @(ViewBag.FilterIndex == 2 ? "disabled": string.Empty)">
                 <a class="page-link" asp-controller="Vendors" asp-action="GetAllVendors" asp-route-filterIndex="2">F-K</a>
             </li>
-            <li class="page-item">
+            <li class="page-item @(ViewBag.FilterIndex == 3 ? "disabled": string.Empty)">
                 <a class="page-link" asp-controller="Vendors" asp-action="GetAllVendors" asp-route-filterIndex="3">L-R</a>
             </li>
-            <li class="page-item">
+            <li class="page-item @(ViewBag.FilterIndex == 4 ? "disabled": string.Empty)">
                 <a class="page-link" asp-controller="Vendors" asp-action="GetAllVendors" asp-route-filterIndex="4">S-Z</a>
             </li>
         </ul>

@@ -15,9 +15,10 @@ namespace VendorInvoicesApp.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("GetAllVendors", "Vendors");
         }
 
+        [Route("/Test")]
         public IActionResult Privacy()
         {
             return View();

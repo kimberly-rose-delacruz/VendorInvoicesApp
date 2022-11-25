@@ -68,11 +68,12 @@ namespace VendorInvoicesApp.Services
 
         public Vendor GetVendorById(int id)
         {
-            Vendor vendor = _vendorDbContext.Vendors.FirstOrDefault(v => v.VendorId == id);
+            Vendor vendor = _vendorDbContext.Vendors.Find(id);
 
             return vendor;
         }
 
+        
         public void UpdateVendor(Vendor updateVendor)
         {
             _vendorDbContext.Update(updateVendor);
