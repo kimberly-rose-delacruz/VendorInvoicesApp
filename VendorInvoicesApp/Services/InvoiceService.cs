@@ -11,7 +11,6 @@ namespace VendorInvoicesApp.Services
             _vendorDbContext = vendorDbContext;
         }
 
-
         public List<Invoice> GetAllInvoicesByVendorId(int vendorId)
         {
              return _vendorDbContext.Invoices.Include(i=>i.PaymentTerms).Where(i=>i.VendorId == vendorId).ToList();
@@ -19,14 +18,9 @@ namespace VendorInvoicesApp.Services
 
         public List<InvoiceLineItem> GetInvoiceLineItemsByInvoiceId(int invoiceId)
         {
-            return _vendorDbContext.InvoiceLineItems.Where(i=>i.InvoiceId == invoiceId).OrderByDescending(i=>i.Description).ToList();
+            return _vendorDbContext.InvoiceLineItems.Where(i=>i.InvoiceId == invoiceId).OrderBy(i=>i.Description).ToList();
         }
 
-
-        public Invoice GetActiveInvoice()
-        {
-            return _vendorDbContext.Invoices.FirstOrDefault();
-        }
         public PaymentTerms GetPaymentTermOfActiveInvoiceById(Invoice invoice)
         {
            PaymentTerms term = _vendorDbContext.Terms.Where(p=>p.PaymentTermsId == invoice.PaymentTermsId).FirstOrDefault();
@@ -47,6 +41,23 @@ namespace VendorInvoicesApp.Services
 
             totalAmountOfLineItems = (double)items.Select(i => i.Amount).DefaultIfEmpty().Sum();
             return totalAmountOfLineItems;
+        }
+
+        public void AddInvoice(Invoice invoice)
+        {
+            _vendorDbContext.Add(invoice);
+            _vendorDbContext.SaveChanges();
+        }
+
+        public void AddInvoiceLineItem(InvoiceLineItem lineItem)
+        {
+            _vendorDbContext.Add(lineItem);
+            _vendorDbContext.SaveChanges();
+        }
+
+        public PaymentTerms GetPaymentTermOfAnInvoice(int termId)
+        {
+            return _vendorDbContext.Terms.Where(p => p.PaymentTermsId == termId).FirstOrDefault();
         }
     }
 }

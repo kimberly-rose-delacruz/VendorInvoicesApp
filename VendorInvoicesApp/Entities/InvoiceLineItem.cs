@@ -9,7 +9,7 @@ namespace VendorInvoicesApp.Entities
         [Required(ErrorMessage = "Please enter an amount.")]
         public double? Amount { get; set; }
 
-        [Required(ErrorMessage = "Please enter an amount.")]
+        [Required(ErrorMessage = "Please enter a description.")]
         public string? Description { get; set; }
 
         // FK:

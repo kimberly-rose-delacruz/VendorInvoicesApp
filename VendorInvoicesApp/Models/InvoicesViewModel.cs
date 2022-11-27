@@ -20,5 +20,7 @@ namespace VendorInvoicesApp.Models
         public double TotalAmountOfActiveLineItems { get; set; }
 
         public InvoiceLineItem LineItem { get; set; }
+
+        public Invoice NewInvoice { get; set; }
     }
 }

@@ -1,14 +1,18 @@
 ﻿@model InvoicesViewModel
 
 
+<!--Enabling pulling in extra javascript within an cshtml file to use in the validation scripts-->
+@section scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
 
 <div class="row">
-
     <div class="col-sm-6">
         <div>
             <!--display here the list of invoices and the form for adding invoice-->
             <h1>Invoices for @Model.ActiveVendor.Name</h1>
-            <h4 id="vendor-address">Invoices for @Model.ActiveVendor.Address1, @Model.ActiveVendor.Address2, @Model.ActiveVendor.City, @Model.ActiveVendor.ProvinceOrState, @Model.ActiveVendor.ZipOrPostalCode</h4>
+            <h4 id="vendor-address">Invoices for @Model.ActiveVendor.Address1 @Model.ActiveVendor.Address2 @Model.ActiveVendor.City @Model.ActiveVendor.ProvinceOrState @Model.ActiveVendor.ZipOrPostalCode</h4>
 
 
             <span class="mx-5"></span>
@@ -21,7 +25,7 @@
             else
             {
                 <h6>Invoices</h6>
-                <table class="table table-striped">
+                <table class="table">
                     <thead>
                         <tr>
                             <th scope="col">Invoice #</th>
@@ -39,7 +43,7 @@
                                         <a asp-controller="Invoice" asp-action="GetInvoiceById" asp-route-invoiceId="@invoice.InvoiceId" asp-route-id="@Model.ActiveVendor.VendorId">@invoice.InvoiceId</a>
                                     </td>
                                     <td>@invoice.InvoiceDueDate?.ToString("MM/dd/yyyy")</td> <!--Calculate based on PaymentTerms Due Days + Days from InvoiceDate-->
-                                    <td>@invoice.PaymentTotal</td>
+                                    <td>@invoice.PaymentTotal.Value.ToString("n2")</td>
                                 </tr>
                             }
                             else
@@ -49,7 +53,7 @@
                                         <a asp-controller="Invoice" asp-action="GetInvoiceById" asp-route-invoiceId="@invoice.InvoiceId" asp-route-id="@Model.ActiveVendor.VendorId">@invoice.InvoiceId</a>
                                     </td>
                                     <td>@invoice.InvoiceDueDate?.ToString("MM/dd/yyyy")</td> <!--Calculate based on PaymentTerms Due Days + Days from InvoiceDate-->
-                                    <td>@invoice.PaymentTotal</td>
+                                    <td>@invoice.PaymentTotal.Value.ToString("n2")</td>
                                 </tr>
                             }
                         }
@@ -58,12 +62,21 @@
             }
         </div>
 
+        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
         <form asp-controller="Invoice" asp-action="ProcessAddOfInvoice" method="post" asp-route-id="@Model.ActiveVendor.VendorId" enctype="application/x-www-form-urlencoded">
             <div class="form-group row">
 
-                <div class="col-sm-2"><label asp-for="@Model.ActiveInvoice.InvoiceDate">Date:</label></div>
+                @if(Model.ActiveInvoice != null)
+                {
+                    <input type="hidden" asp-for="@Model.ActiveInvoice.InvoiceId" />
+                }
+
+                <div class="col-sm-2"><label asp-for="@Model.NewInvoice.InvoiceDate">Date:</label></div>
                 <div class="col-sm-4">
-                    <input type="datetime" value="" asp-for="@Model.ActiveInvoice.InvoiceDate" class="form-control" />
+                    <input type="datetime" asp-for="@Model.NewInvoice.InvoiceDate" class="form-control" />
+                </div>
+                <div class="col-sm-6">
+                    <span asp-validation-for="@Model.NewInvoice.InvoiceDate" class="text-danger"></span>
                 </div>
             </div>
             <span class="mx-1"></span>
@@ -124,7 +137,7 @@
                     else
                     {
                         <h6>Line items for invoice # @Model.ActiveInvoice.InvoiceId</h6>
-                        <table class="table table-striped">
+                        <table class="table">
                             <thead>
                                 <tr>
                                     <th scope="col">Description</th>
@@ -136,17 +149,18 @@
                                 {
                                     <tr>
                                         <td>@item.Description</td>
-                                        <td>@Math.Round(item.Amount.Value,2)</td>
+                                        <td>@Math.Round(item.Amount.Value,2).ToString("n2")</td>
                                     </tr>
                                 }
                             </tbody>
                         </table>
-                        <h6>Total: $@Model.TotalAmountOfActiveLineItems</h6>
+                        <h6>Total: $@Math.Round(Model.TotalAmountOfActiveLineItems,2).ToString("n2")</h6>
                     }
                 </div>
             </div>
             <!--display here the list of invoices and the form for adding invoice-->
-            <form asp-controller="Invoice" asp-action="ProcessAddOfInvoiceLineItem" method="post" asp-route-id="@Model.ActiveInvoice.InvoiceId" enctype="application/x-www-form-urlencoded">
+            <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+            <form asp-controller="Invoice" asp-action="ProcessAddOfInvoiceLineItem" method="post" asp-route-id="@Model.ActiveVendor.VendorId"  asp-route-invoiceId="@Model.ActiveInvoice.InvoiceId" enctype="application/x-www-form-urlencoded">
                 <div class="form-group row">
                     <!--Call Invoice Line Items-->
                     <div class="col-sm-2">
@@ -154,6 +168,9 @@
                     </div>
                     <div class="col-sm-4">
                         <input type="text" asp-for="@Model.LineItem.Description" class="form-control" />
+                    </div>
+                    <div class="col-sm-6">
+                        <span asp-validation-for="@Model.LineItem.Description" class="text-danger"></span>
                     </div>
                 </div>
                 <span class="mx-1"></span>
@@ -163,6 +180,9 @@
                     </div>
                     <div class="col-sm-4">
                         <input type="text" asp-for="@Model.LineItem.Amount" class="form-control" />
+                    </div>
+                    <div class="col-sm-6">
+                        <span asp-validation-for="@Model.LineItem.Amount" class="text-danger"></span>
                     </div>
                 </div>
                 <span class="mx-1"></span>
