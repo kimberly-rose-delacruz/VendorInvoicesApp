@@ -9,6 +9,20 @@
 <div>
     <a asp-controller="Vendors" asp-action="GetAddVendorRequest">Add new vendor</a>
 
+    @if (TempData["UndoVendorDeletion"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <!--This one will read the value from the TempData Assign to this variable.
+                This will show it in the page.
+            -->
+            <span>
+                <p>The vendor "@TempData["UndoVendorDeletion"]" was deleted. <a asp-controller="Vendors" asp-action="ProcessUndoSoftDeleteVendorRequest" asp-route-id="@TempData["UndoVendorForUndoDeletionID"]">Undo</a> this delete.</p>
+            </span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+    }
+
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
@@ -24,11 +38,11 @@
                     <td>@vendor.Name</td>
                     <td>@vendor.Address1 @vendor.Address2 @vendor.City @vendor.ProvinceOrState @vendor.ZipOrPostalCode</td>
                     <td>
-                        <a href="#">Invoices</a>
+                        <a asp-controller="Invoice" asp-action="GetAllInvoice" asp-route-id="@vendor.VendorId">Invoices</a>
                         <span class="mx-1">|</span>
                         <a asp-controller="Vendors" asp-action="GetEditVendorById" asp-route-id="@vendor.VendorId">Edit</a>
                         <span class="mx-1">|</span>
-                        <a>Delete</a>
+                        <a asp-controller="Vendors" asp-action="GetDeleteVendorById" asp-route-id="@vendor.VendorId">Delete</a>
                     </td>
                     </tr>
 

@@ -13,9 +13,9 @@ namespace VendorInvoicesApp.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int filterIndex = 1)
         {
-            return RedirectToAction("GetAllVendors", "Vendors");
+            return RedirectToAction("GetAllVendors", "Vendors", new {filterIndex});
         }
 
         [Route("/Test")]

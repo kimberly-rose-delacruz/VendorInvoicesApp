@@ -12,6 +12,8 @@ builder.Services.AddDbContext<VendorDbContext>(options=>options.UseSqlServer(con
 
 builder.Services.AddScoped<IVendorService, VendorService>();
 
+builder.Services.AddScoped<IInvoiceService, InvoiceService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -1,0 +1,19 @@
+﻿@model Vendor
+
+@{
+    ViewData["Title"] = "Delete a Vendor";
+}
+<body>
+    <h3>Confirm Deletion</h3>
+    <h2>@Model.Name (Address:@Model.Address1 @Model.Address2, @Model.City, @Model.ProvinceOrState, @Model.ZipOrPostalCode)</h2>
+
+    <form asp-controller="Vendors" asp-action="ProcessSoftDeleteVendorRequest" asp-route-id="@Model.VendorId" method="post">
+        <input type="hidden" asp-for="@Model.VendorId" />
+
+        <div>
+            <button type="submit" class="btn btn-primary">Delete</button>
+            <a asp-controller="Vendors" asp-action="GetAllVendors" class="btn btn-primary">Cancel</a>
+        </div>
+
+    </form>
+</body>

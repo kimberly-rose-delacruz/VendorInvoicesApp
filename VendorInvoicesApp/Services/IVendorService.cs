@@ -6,10 +6,12 @@ namespace VendorInvoicesApp.Services
     {
         bool IsPhoneNumberUnique(string phoneNumber);
         ICollection<Vendor> GetAllVendorsByGroupLink(int selectedGroupLink);
-        ICollection<Vendor> GetAllVendors();
         void AddVendor(Vendor vendor);
         int GetFilterIndexBasedOnName(string name);
         Vendor GetVendorById(int id);
         void UpdateVendor(Vendor vendor);
+        void UpdateIsDeleteStatusToYes(int vendorId);
+        void UpdateIsDeletedStatusToNo(int vendorId);
+
     }
 }

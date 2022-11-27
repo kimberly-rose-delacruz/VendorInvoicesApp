@@ -1,0 +1,174 @@
+﻿@model InvoicesViewModel
+
+
+
+<div class="row">
+
+    <div class="col-sm-6">
+        <div>
+            <!--display here the list of invoices and the form for adding invoice-->
+            <h1>Invoices for @Model.ActiveVendor.Name</h1>
+            <h4 id="vendor-address">Invoices for @Model.ActiveVendor.Address1, @Model.ActiveVendor.Address2, @Model.ActiveVendor.City, @Model.ActiveVendor.ProvinceOrState, @Model.ActiveVendor.ZipOrPostalCode</h4>
+
+
+            <span class="mx-5"></span>
+
+            @if (Model.Invoices.Count == 0)
+            {
+                <h6>Invoices</h6>
+                <p>No Invoices - you may add invoices by using the form below.</p>
+            }
+            else
+            {
+                <h6>Invoices</h6>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Invoice #</th>
+                            <th scope="col">DueDates</th>
+                            <th scope="col">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (Invoice invoice in @Model.Invoices)
+                        {
+                            @if (Model.ActiveInvoice.InvoiceId == invoice.InvoiceId)
+                            {
+                                <tr class="table-primary">
+                                    <td>
+                                        <a asp-controller="Invoice" asp-action="GetInvoiceById" asp-route-invoiceId="@invoice.InvoiceId" asp-route-id="@Model.ActiveVendor.VendorId">@invoice.InvoiceId</a>
+                                    </td>
+                                    <td>@invoice.InvoiceDueDate?.ToString("MM/dd/yyyy")</td> <!--Calculate based on PaymentTerms Due Days + Days from InvoiceDate-->
+                                    <td>@invoice.PaymentTotal</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td>
+                                        <a asp-controller="Invoice" asp-action="GetInvoiceById" asp-route-invoiceId="@invoice.InvoiceId" asp-route-id="@Model.ActiveVendor.VendorId">@invoice.InvoiceId</a>
+                                    </td>
+                                    <td>@invoice.InvoiceDueDate?.ToString("MM/dd/yyyy")</td> <!--Calculate based on PaymentTerms Due Days + Days from InvoiceDate-->
+                                    <td>@invoice.PaymentTotal</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+
+        <form asp-controller="Invoice" asp-action="ProcessAddOfInvoice" method="post" asp-route-id="@Model.ActiveVendor.VendorId" enctype="application/x-www-form-urlencoded">
+            <div class="form-group row">
+
+                <div class="col-sm-2"><label asp-for="@Model.ActiveInvoice.InvoiceDate">Date:</label></div>
+                <div class="col-sm-4">
+                    <input type="datetime" value="" asp-for="@Model.ActiveInvoice.InvoiceDate" class="form-control" />
+                </div>
+            </div>
+            <span class="mx-1"></span>
+            <div class="form-group row">
+                <div class="col-sm-2">
+                    <label asp-for="@Model.Term.PaymentTermsId">Terms: </label>
+                </div>
+                <div class="col-sm-4">
+                    <select class="dropdown-item border" asp-for="@Model.Term.PaymentTermsId">
+                        @foreach (PaymentTerms term in Model.Terms)
+                        {
+                            <option value="@term.PaymentTermsId">@term.Description</option>
+                        }
+                    </select>
+                </div>
+
+            </div>
+            <button class="btn btn-primary mt-3">Add Invoice</button>
+        </form>
+    </div>
+
+
+    <!--display line of items based on the payment term-->
+    <div class="col-sm-6">
+        <div id="return-to-vendors-url">
+            @if(ViewBag.VendorFilterIndex == 1)
+            {
+                <a asp-controller="Vendors" asp-action="GetAllVendors" asp-route-filterIndex="@ViewBag.VendorFilterIndex">Return to A-E Vendors</a>
+            }
+            else if(ViewBag.VendorFilterIndex == 2)
+            {
+                <a asp-controller="Vendors" asp-action="GetAllVendors" asp-route-filterIndex="@ViewBag.VendorFilterIndex">Return to F-K Vendors</a>
+            }
+            else if(ViewBag.VendorFilterIndex == 3)
+            {
+                <a asp-controller="Vendors" asp-action="GetAllVendors" asp-route-filterIndex="@ViewBag.VendorFilterIndex">Return to L-R Vendors</a>
+            }
+            else
+            {
+                <a asp-controller="Vendors" asp-action="GetAllVendors" asp-route-filterIndex="@ViewBag.VendorFilterIndex">Return to S-Z Vendors</a>
+            }
+        </div>
+
+        @if(Model.ActiveInvoice != null)
+        {
+            <div>
+                <h4 class="text-right" id="terms-day">Term: @Model.Term.DueDays days</h4>
+
+                <span class="mx-5"></span>
+
+                <!--Line Items in Table According to Active Invoice-->
+                <div>
+                    @if (Model.InvoiceLineItems.Count == 0)
+                    {
+                        <h6>Line items for invoice # @Model.ActiveInvoice.InvoiceId</h6>
+                        <p>No Line Items Available Now - you may add line items by using the form below.</p>
+                    }
+                    else
+                    {
+                        <h6>Line items for invoice # @Model.ActiveInvoice.InvoiceId</h6>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (InvoiceLineItem item in @Model.InvoiceLineItems)
+                                {
+                                    <tr>
+                                        <td>@item.Description</td>
+                                        <td>@Math.Round(item.Amount.Value,2)</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <h6>Total: $@Model.TotalAmountOfActiveLineItems</h6>
+                    }
+                </div>
+            </div>
+            <!--display here the list of invoices and the form for adding invoice-->
+            <form asp-controller="Invoice" asp-action="ProcessAddOfInvoiceLineItem" method="post" asp-route-id="@Model.ActiveInvoice.InvoiceId" enctype="application/x-www-form-urlencoded">
+                <div class="form-group row">
+                    <!--Call Invoice Line Items-->
+                    <div class="col-sm-2">
+                        <label asp-for="@Model.LineItem.Description">Description: </label>
+                    </div>
+                    <div class="col-sm-4">
+                        <input type="text" asp-for="@Model.LineItem.Description" class="form-control" />
+                    </div>
+                </div>
+                <span class="mx-1"></span>
+                <div class="form-group row">
+                    <div class="col-sm-2">
+                        <label asp-for="@Model.LineItem.Amount">Amount: </label>
+                    </div>
+                    <div class="col-sm-4">
+                        <input type="text" asp-for="@Model.LineItem.Amount" class="form-control" />
+                    </div>
+                </div>
+                <span class="mx-1"></span>
+                <button class="btn btn-primary mt-3">Add line item</button>
+            </form>
+        }
+
+    </div>
+</div>

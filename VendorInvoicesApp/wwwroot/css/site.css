@@ -29,3 +29,19 @@ body {
 .validation-summary-errors ul {
     list-style: none;
 }
+
+
+#vendor-address,
+#terms-day{
+    color: gray;
+}
+
+#terms-day,
+#return-to-vendors-url {
+    text-align: right;
+}
+
+#return-to-vendors-url{
+    margin-bottom:20px;
+    font-size:20px;
+}

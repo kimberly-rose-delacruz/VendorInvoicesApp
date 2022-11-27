@@ -21,9 +21,12 @@ namespace VendorInvoicesApp.Controllers
         {
             ViewBag.FilterIndex = filterIndex;
             ICollection<Vendor> vendors = _vendorService.GetAllVendorsByGroupLink(filterIndex);
+
+
             VendorViewModel vendorViewModel = new VendorViewModel()
             {
                 Vendors = vendors,
+
             };
 
             return View("VendorsList",vendorViewModel);
@@ -70,7 +73,6 @@ namespace VendorInvoicesApp.Controllers
         }
 
         [HttpPost("/vendors/{id}/edit-requests")]
-
         public IActionResult ProcessEditVendorRequest(Vendor editVendor)
         {
 
@@ -89,6 +91,31 @@ namespace VendorInvoicesApp.Controllers
             }
         }
 
+        [HttpGet("/vendors/{id}/delete-vendor")]
+        public IActionResult GetDeleteVendorById(int id)
+        {
+            Vendor vendor = _vendorService.GetVendorById(id);
+
+            return View("Delete", vendor);
+        }
+
+        [HttpPost("/vendors/{id}/delete")]
+        public IActionResult ProcessSoftDeleteVendorRequest(int id)
+        {
+            Vendor vendor = _vendorService.GetVendorById(id);
+            _vendorService.UpdateIsDeleteStatusToYes(id);
+            TempData["UndoVendorDeletion"] = $"{vendor.Name}";
+            TempData["UndoVendorForUndoDeletionID"] = $"{vendor.VendorId}";
+
+            return RedirectToAction("GetAllVendors", "Vendors");
+        }
+
+        [HttpGet("/vendors/{id}/undo-delete")]
+        public IActionResult ProcessUndoSoftDeleteVendorRequest(int id)
+        {
+            _vendorService.UpdateIsDeletedStatusToNo(id);
+            return RedirectToAction("GetAllVendors", "Vendors");
+        }
 
     }
 
