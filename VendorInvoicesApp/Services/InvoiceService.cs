@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using VendorInvoicesApp.Entities;
+using VendorInvoiceLibrary.Entities;
+using VendorInvoiceLibrary.Services;
+using VendorInvoicesApp.DatabaseAccess;
 
 namespace VendorInvoicesApp.Services
 {
-    public class InvoiceService: IInvoiceService
+    public class InvoiceService : IInvoiceService
     {
         private VendorDbContext _vendorDbContext;
         public InvoiceService(VendorDbContext vendorDbContext)
@@ -13,17 +15,17 @@ namespace VendorInvoicesApp.Services
 
         public List<Invoice> GetAllInvoicesByVendorId(int vendorId)
         {
-             return _vendorDbContext.Invoices.Include(i=>i.PaymentTerms).Where(i=>i.VendorId == vendorId).ToList();
+            return _vendorDbContext.Invoices.Include(i => i.PaymentTerms).Where(i => i.VendorId == vendorId).ToList();
         }
 
         public List<InvoiceLineItem> GetInvoiceLineItemsByInvoiceId(int invoiceId)
         {
-            return _vendorDbContext.InvoiceLineItems.Where(i=>i.InvoiceId == invoiceId).OrderBy(i=>i.Description).ToList();
+            return _vendorDbContext.InvoiceLineItems.Where(i => i.InvoiceId == invoiceId).OrderBy(i => i.Description).ToList();
         }
 
         public PaymentTerms GetPaymentTermOfActiveInvoiceById(Invoice invoice)
         {
-           PaymentTerms term = _vendorDbContext.Terms.Where(p=>p.PaymentTermsId == invoice.PaymentTermsId).FirstOrDefault();
+            PaymentTerms term = _vendorDbContext.Terms.Where(p => p.PaymentTermsId == invoice.PaymentTermsId).FirstOrDefault();
 
             return term;
         }

@@ -1,5 +1,7 @@
 ﻿using System.Numerics;
-using VendorInvoicesApp.Entities;
+using VendorInvoiceLibrary.Entities;
+using VendorInvoiceLibrary.Services;
+using VendorInvoicesApp.DatabaseAccess;
 
 namespace VendorInvoicesApp.Services
 {
@@ -7,6 +9,7 @@ namespace VendorInvoicesApp.Services
     {
         private VendorDbContext _vendorDbContext;
         private ICollection<Vendor> vendors;
+
         public VendorService(VendorDbContext vendorDbContext)
         {
             _vendorDbContext = vendorDbContext;
@@ -25,18 +28,12 @@ namespace VendorInvoicesApp.Services
             return result;
         }
 
-        public ICollection<Vendor> GetAllVendors()
-        {
-            var vendors = _vendorDbContext.Vendors.OrderByDescending(v => v.Name).Where(v=>v.IsDeleted == false).ToList();
-            return vendors;
-        }
-
         public ICollection<Vendor> GetAllVendorsByGroupLink(int selectedGroupLink)
         {
             if (selectedGroupLink == 1)
             {
                 //get list of vendors A-E by default
-                vendors = _vendorDbContext.Vendors.Where(v=>v.IsDeleted==false).Where(v => v.Name.StartsWith("A") || v.Name.StartsWith("a") || v.Name.StartsWith("B")
+                vendors = _vendorDbContext.Vendors.Where(v => v.IsDeleted == false).Where(v => v.Name.StartsWith("A") || v.Name.StartsWith("a") || v.Name.StartsWith("B")
                 || v.Name.StartsWith("b") || v.Name.StartsWith("C") || v.Name.StartsWith("c") || v.Name.StartsWith("D") || v.Name.StartsWith("d") || v.Name.StartsWith("e") || v.Name.StartsWith("E")).ToList();
             }
             if (selectedGroupLink == 2)
@@ -73,7 +70,7 @@ namespace VendorInvoicesApp.Services
             return vendor;
         }
 
-        
+
         public void UpdateVendor(Vendor updateVendor)
         {
             _vendorDbContext.Update(updateVendor);
@@ -110,7 +107,7 @@ namespace VendorInvoicesApp.Services
         public void UpdateIsDeleteStatusToYes(int vendorId)
         {
             var vendor = _vendorDbContext.Vendors.Find(vendorId);
-            if(vendor != null)
+            if (vendor != null)
             {
                 vendor.IsDeleted = true;
 

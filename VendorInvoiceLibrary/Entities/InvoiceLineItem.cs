@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace VendorInvoicesApp.Entities
+namespace VendorInvoiceLibrary.Entities
 {
     public class InvoiceLineItem
     {

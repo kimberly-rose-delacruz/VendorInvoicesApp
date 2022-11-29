@@ -1,6 +1,6 @@
-﻿using VendorInvoicesApp.Entities;
+﻿using VendorInvoiceLibrary.Entities;
 
-namespace VendorInvoicesApp.Services
+namespace VendorInvoiceLibrary.Services
 {
     public interface IInvoiceService
     {

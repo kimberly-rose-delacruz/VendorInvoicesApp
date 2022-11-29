@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace VendorInvoicesApp.Entities
+namespace VendorInvoiceLibrary.Entities
 {
     public class Invoice
     {

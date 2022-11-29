@@ -7,7 +7,7 @@
 }
 
 <div>
-    <a asp-controller="Vendors" asp-action="GetAddVendorRequest">Add new vendor</a>
+    <a asp-controller="Vendors" asp-action="GetAddVendorRequest" asp-route-filterIndex="@ViewBag.FilterIndex">Add new vendor</a>
 
     @if (TempData["UndoVendorDeletion"] != null)
     {
@@ -40,9 +40,9 @@
                     <td>
                         <a asp-controller="Invoice" asp-action="GetAllInvoice" asp-route-id="@vendor.VendorId">Invoices</a>
                         <span class="mx-1">|</span>
-                        <a asp-controller="Vendors" asp-action="GetEditVendorById" asp-route-id="@vendor.VendorId">Edit</a>
+                        <a asp-controller="Vendors" asp-action="GetEditVendorById" asp-route-id="@vendor.VendorId" asp-route-filterIndex="@ViewBag.FilterIndex">Edit</a>
                         <span class="mx-1">|</span>
-                        <a asp-controller="Vendors" asp-action="GetDeleteVendorById" asp-route-id="@vendor.VendorId">Delete</a>
+                        <a asp-controller="Vendors" asp-action="GetDeleteVendorById" asp-route-id="@vendor.VendorId" asp-route-filterIndex="@ViewBag.FilterIndex">Delete</a>
                     </td>
                     </tr>
 

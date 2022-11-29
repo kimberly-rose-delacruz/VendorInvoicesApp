@@ -12,7 +12,22 @@
 
         <div>
             <button type="submit" class="btn btn-primary">Delete</button>
-            <a asp-controller="Vendors" asp-action="GetAllVendors" class="btn btn-primary">Cancel</a>
+            @if (ViewBag.FilterIndex == 1)
+            {
+                <a asp-controller="Vendors" asp-action="GetAllVendors" asp-route-filterIndex="1" class="btn btn-primary">Cancel</a>
+            }
+            else if (ViewBag.FilterIndex == 2)
+            {
+                <a asp-controller="Vendors" asp-action="GetAllVendors" asp-route-filterIndex="2" class="btn btn-primary">Cancel</a>
+            }
+            else if (ViewBag.FilterIndex == 3)
+            {
+                <a asp-controller="Vendors" asp-action="GetAllVendors" asp-route-filterIndex="3" class="btn btn-primary">Cancel</a>
+            }
+            else
+            {
+                <a asp-controller="Vendors" asp-action="GetAllVendors" asp-route-filterIndex="4" class="btn btn-primary">Cancel</a>
+            }
         </div>
 
     </form>

@@ -1,8 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿/*InvoiceController.cs
+ * Purpose: This is the controller some of the remotely validation of some of the fields for vendor entity.
+ *
+ * Revision History
+ *      Created by Kimberly Rose Dela Cruz on November 28, 2022
+ */
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.Text.RegularExpressions;
-using VendorInvoicesApp.Entities;
-using VendorInvoicesApp.Services;
+using VendorInvoiceLibrary.Entities;
+using VendorInvoiceLibrary.Services;
 
 namespace VendorInvoicesApp.Controllers
 {

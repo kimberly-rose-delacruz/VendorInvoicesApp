@@ -1,8 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿/*InvoiceController.cs
+ * Purpose: This is the controller for all invoices of a vendor. This includes the adding of invoice and within that invoice you can add a new line item.
+ *
+ * Revision History
+ *      Created by Kimberly Rose Dela Cruz on November 28, 2022
+ */
+using Microsoft.AspNetCore.Mvc;
 using System.Numerics;
-using VendorInvoicesApp.Entities;
+using VendorInvoiceLibrary.Entities;
 using VendorInvoicesApp.Models;
-using VendorInvoicesApp.Services;
+using VendorInvoiceLibrary.Services;
 
 namespace VendorInvoicesApp.Controllers
 {

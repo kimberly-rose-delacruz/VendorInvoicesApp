@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using VendorInvoiceLibrary.Entities;
 
-namespace VendorInvoicesApp.Entities
+namespace VendorInvoicesApp.DatabaseAccess
 {
     public class VendorDbContext : DbContext
     {

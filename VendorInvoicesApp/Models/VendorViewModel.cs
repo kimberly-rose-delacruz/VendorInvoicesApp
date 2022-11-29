@@ -1,4 +1,4 @@
-﻿using VendorInvoicesApp.Entities;
+﻿using VendorInvoiceLibrary.Entities;
 
 namespace VendorInvoicesApp.Models
 {

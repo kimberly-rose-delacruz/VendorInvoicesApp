@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using VendorInvoicesApp.Entities;
+using VendorInvoiceLibrary.Entities;
+using VendorInvoicesApp.DatabaseAccess;
+using VendorInvoiceLibrary.Services;
 using VendorInvoicesApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
