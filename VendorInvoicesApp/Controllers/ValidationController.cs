@@ -20,6 +20,9 @@ namespace VendorInvoicesApp.Controllers
             _vendorService = vendorService;
         }
 
+        //this is the validation controller to validate the specific fields remotely using a controller 
+        //this will return the message if its valid or not.
+        //the below code is for checking the province or state length should only be equivalent to 2.
         public IActionResult CheckProvinceLength(string provinceOrState)
         {
             string msgResult = CheckProvinceStateLength(provinceOrState);
@@ -36,6 +39,7 @@ namespace VendorInvoicesApp.Controllers
             return View();
         }
 
+        //this is actual validation for province state or length
         private string CheckProvinceStateLength(string provinceOrState)
         {
             string msg = "";
@@ -47,6 +51,7 @@ namespace VendorInvoicesApp.Controllers
             return msg;
         }
 
+        //this is for the validation of checking the postal code
         public IActionResult CheckPostalcode(string zipOrPostalCode)
         {
             string msgResult = ValidateZipPostalCode(zipOrPostalCode);
@@ -65,6 +70,7 @@ namespace VendorInvoicesApp.Controllers
             return View();
         }
 
+        //the actual checking for the zip or postal code for both usa and canada.
         private string ValidateZipPostalCode(string zipCode)
         {
             string msg = "";
@@ -80,6 +86,7 @@ namespace VendorInvoicesApp.Controllers
             return msg;
         }
 
+        //checking if phone number is  unique based from the database.
         public IActionResult CheckPhoneNum(string vendorPhone)
         {
            var msgResult = ValidatePhoneNum(vendorPhone);
@@ -98,6 +105,7 @@ namespace VendorInvoicesApp.Controllers
             return View();
         }
 
+        //this is the actual checking from the service whethere the phone number is unique.
         private string ValidatePhoneNum(string phoneNumber)
         {
             string msg = "";

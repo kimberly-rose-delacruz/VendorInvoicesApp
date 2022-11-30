@@ -1,4 +1,6 @@
-﻿using VendorInvoiceLibrary.Entities;
+﻿/*This whole entities folder is just transferred here in the class library to be used for the unit testing.
+ */
+using VendorInvoiceLibrary.Entities;
 
 namespace VendorInvoiceLibrary.Services
 {

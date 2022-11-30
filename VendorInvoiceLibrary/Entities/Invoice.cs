@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿/*This whole entities folder is just transferred here in the class library to be used for the unit testing.
+ */
+using System.ComponentModel.DataAnnotations;
 
 namespace VendorInvoiceLibrary.Entities
 {

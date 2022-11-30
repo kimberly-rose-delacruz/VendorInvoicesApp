@@ -110,6 +110,7 @@ namespace VendorInvoicesApp.Controllers
             }
         }
 
+        //this is to process the deletion of a vendor by redirecting the vendor to a page confirmation.
         [HttpGet("/vendors/{id}/delete-vendor")]
         public IActionResult GetDeleteVendorById(int id, int filterIndex)
         {
@@ -118,17 +119,24 @@ namespace VendorInvoicesApp.Controllers
             return View("Delete", vendor);
         }
 
+        //this is to just process the soft deletion of the
         [HttpPost("/vendors/{id}/delete")]
         public IActionResult ProcessSoftDeleteVendorRequest(int id)
         {
             Vendor vendor = _vendorService.GetVendorById(id);
+            //this is just to udpdate the vendor's selected for delete to isdelete status to yes
             _vendorService.UpdateIsDeleteStatusToYes(id);
+
+            //then return the name and ID of the vendor for deletion to show it as a dismissal message in the page.
             TempData["UndoVendorDeletion"] = $"{vendor.Name}";
             TempData["UndoVendorForUndoDeletionID"] = $"{vendor.VendorId}";
 
+            //redirect back to the vendor's list.
             return RedirectToAction("GetAllVendors", "Vendors");
         }
 
+
+        //this is just to undo the status of the deleted vendor to let the user know that it was undoed if the linked undo has been triggered. 
         [HttpGet("/vendors/{id}/undo-delete")]
         public IActionResult ProcessUndoSoftDeleteVendorRequest(int id)
         {

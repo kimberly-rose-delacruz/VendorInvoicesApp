@@ -10,3 +10,8 @@ $(document).ready(function () {
         yearRange: '-100:+100'
     });
 });
+
+//this function will set timeout for the fading out the dismissal message for 10 seconds.
+setTimeout(function () {
+    $("#undo-message-alert").fadeOut().empty();
+}, 10000);

@@ -1,5 +1,13 @@
+/*VendorInvoice.Tests.cs
+ * Purpose: This is to show some of the unit testing for the vendor invoices application that I created using MVC.
+ * 
+ * Revision History:
+ *      Created on November 30, 2022 by Kimberly Rose Dela Cruz
+ * 
+ */
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 using System.Text.RegularExpressions;
 using VendorInvoiceLibrary.Entities;
 using VendorInvoiceLibrary.Services;
@@ -114,7 +122,7 @@ namespace VendorInvoice.Tests
                 InvoiceService invoiceService = new InvoiceService(context);
                 int invoiceId = 1;
                 double expectedTotalAmount = 1100.42 + 120.00 + 550.00;
-                //testing the service from the invoice services.
+                //testing the service from the invoice services.  checking the service from invoice line items where we need to assert if the summation of the total amount will be equal to the calculated from the service.
               double actualTotalAmount =   invoiceService.GetTotalAmountOfLineItemsByInvoiceId(invoiceId);
 
                 Assert.Equal(expectedTotalAmount, actualTotalAmount);
@@ -153,7 +161,6 @@ namespace VendorInvoice.Tests
                 context.SaveChanges();
             }
 
-            //create a variable for regex expression to see if the zip or postal code will match on the following regular expressions based on the added data above.
             var usRegexZip = @"^\d{5}(?:[-\s]\d{4})?$";
             var canadaRegexZip = @"^([ABCEGHJKLMNPRSTVXY]\d[ABCEGHJKLMNPRSTVWXYZ])\ {0,1}(\d[ABCEGHJKLMNPRSTVWXYZ]\d)$";
 
@@ -166,8 +173,8 @@ namespace VendorInvoice.Tests
 
                 foreach (var vendor in vendors)
                 {
-                    //assert if Expected should be true when passing correct data for Vendor's Name starts with A to E should be equal to the actual test for regex expression of if it matches to the list of vendor we added in the database In memory.
-                    Assert.Equal(true, Regex.IsMatch(vendor.Name, filterOfVendorNameNotMatchFromAToE));
+
+                    Assert.Equal(true, Regex.IsMatch(vendor.ZipOrPostalCode, usRegexZip) || Regex.IsMatch(vendor.ZipOrPostalCode, canadaRegexZip));
                 }
             }
         }

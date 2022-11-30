@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿/*This whole entities folder is just transferred here in the class library to be used for the unit testing.
+ */
+using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
 namespace VendorInvoiceLibrary.Entities
