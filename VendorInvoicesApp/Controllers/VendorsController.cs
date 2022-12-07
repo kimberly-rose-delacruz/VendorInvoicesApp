@@ -78,6 +78,7 @@ namespace VendorInvoicesApp.Controllers
             else
             {
                 //else show all errors for incorrect input in the Add Vendor View Page.
+                ModelState.AddModelError("", "There are errors in the form - please fix and try again.");
                 return View("Add", vendorViewModel.ActiveVendor);
 
             }
